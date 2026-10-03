@@ -5,22 +5,45 @@ pSi3D is a semi-implicit 3D hydrodynamic model written in Fortran 90 and paralle
 
 ## Installation
 
-Compilation of the source code requires an environment configured with the [Intel Fortran Compiler](https://www.intel.com/content/www/us/en/developer/tools/oneapi/fortran-compiler.html) (`ifort`) and OpenMP (bundled with `ifort` in the [Intel oneAPI HPC Toolkit](https://www.intel.com/content/www/us/en/developer/tools/oneapi/hpc-toolkit-download.html)).
+### macOS / Linux (gfortran — recommended)
 
-To download the source code, clone the repository:
+Install `gfortran` and run:
 
-```
+```bash
+# macOS
+brew install gcc libomp
+
+# Ubuntu/Debian
+sudo apt install gfortran
+
+# Clone and build
 git clone https://github.com/SI3DL/psi3d.git
 cd psi3d
+bash ./Compiler.sh        # uses gfortran by default
 ```
 
-Then, to compile the source code into a binary file (`psi3d`), simply run
+This creates a `psi3d` binary in the working directory. You may need `chmod +x psi3d` to make it executable.
 
-```
-bash ./Compiler.sh
+### Windows (gfortran via Strawberry Perl)
+
+1. Install [Strawberry Perl](https://strawberryperl.com/) — includes `gfortran` and `gmake`
+2. Open a Git Bash terminal and run:
+
+```bash
+git clone https://github.com/SI3DL/psi3d.git
+cd psi3d
+gmake gfortran
 ```
 
-This should create a `psi3d` binary in the working directory (Note: you may need to `chmod` for execution permissions).
+This creates `psi3d.exe` in the working directory.
+
+### Intel Fortran (ifort) — advanced
+
+Requires the [Intel oneAPI HPC Toolkit](https://www.intel.com/content/www/us/en/developer/tools/oneapi/hpc-toolkit-download.html). To use it:
+
+```bash
+FORTRAN_COMPILER=IFORT bash ./Compiler.sh
+```
 
 ## Quickstart
 

@@ -33058,7 +33058,7 @@ c ... specifications for parameters
 c
       dimension          tri(2,*)
       real(8) :: fa,fb,fc,fd
-      real(8) function determ
+      real(8), external :: determ
 c
 c
 c ... local package references --

@@ -1,2 +1,21 @@
 
 .DS_Store
+
+# Build artifacts
+*.o
+*.mod
+psi3d
+psi3d.exe
+psi3d_win.exe
+
+# Simulation outputs (keep input files)
+sample_runs/CLWaterQuality/si3d_3D
+sample_runs/CLWaterQuality/si3d_log.txt
+sample_runs/CLWaterQuality/si3d_out.txt
+sample_runs/CLWaterQuality/si3d_stop.txt
+sample_runs/CLWaterQuality/ScalarBalance.txt
+sample_runs/CLWaterQuality/nbofilei01
+sample_runs/CLWaterQuality/plane_*
+sample_runs/CLWaterQuality/tracer_*
+sample_runs/CLWaterQuality/tf*.txt
+sample_runs/CLWaterQuality/wfield.bnr

@@ -27,6 +27,7 @@ SUBROUTINE input
 
   !.....Local variables.................................................
   CHARACTER(LEN=12) :: input_file = "si3d_inp.txt"
+  CHARACTER(LEN=300) :: tmpline
   INTEGER :: ios, nn, i, j, istat
 
   !.....Open input parameter file.....
@@ -59,9 +60,11 @@ SUBROUTINE input
 
   IF (nnodes > 0) THEN
     IF (ios /= 0) CALL input_error ( ios, 5 )
-    READ (UNIT=i5, FMT='(14X,20I)', IOSTAT=ios) (inode(nn), nn = 1, nnodes)
+    READ (UNIT=i5, FMT='(A)', IOSTAT=ios) tmpline
+    IF (ios == 0) READ (tmpline(15:), *, IOSTAT=ios) (inode(nn), nn = 1, nnodes)
   IF (ios /= 0) CALL input_error ( ios, 5 )
-    READ (UNIT=i5, FMT='(14X,20I)', IOSTAT=ios) (jnode(nn), nn = 1, nnodes)
+    READ (UNIT=i5, FMT='(A)', IOSTAT=ios) tmpline
+    IF (ios == 0) READ (tmpline(15:), *, IOSTAT=ios) (jnode(nn), nn = 1, nnodes)
     IF (ios /= 0) CALL input_error ( ios, 5 )
   ELSE IF (nnodes == 0) THEN
     READ (UNIT=i5, FMT='(/)', IOSTAT=ios)
@@ -80,10 +83,11 @@ SUBROUTINE input
     STOP
   END IF
   IF (n_planes > 0) THEN
-    READ (UNIT=i5, FMT='(14X,20I)', IOSTAT=ios) (p_out(nn), nn = 1, n_planes)
+    READ (UNIT=i5, FMT='(A)', IOSTAT=ios) tmpline
+    IF (ios == 0) READ (tmpline(15:), *, IOSTAT=ios) (p_out(nn), nn = 1, n_planes)
     IF (ios /= 0) CALL input_error ( ios, 6 )
   ELSE IF (n_planes == 0) THEN
-    READ (UNIT=i5, FMT='(14X,20I)', IOSTAT=ios)
+    READ (UNIT=i5, FMT='(A)', IOSTAT=ios) tmpline
     IF (ios /= 0) CALL input_error ( ios, 6 )
   END IF
 
@@ -102,12 +106,12 @@ SUBROUTINE input
       READ (UNIT=i5, FMT='(/14X,I20)' , IOSTAT=ios) n_section_cells(j)
       IF (ios /= 0) CALL input_error ( ios, 7 )
       ! ... Read i coordinates for cells in X-section j
-      READ (UNIT=i5, FMT='(14X,10I5)', IOSTAT=ios)                       &  ! Changed to I5 12/2010 SWA
-      &    (xinode(j, nn), nn = 1, n_section_cells(j) )
+      READ (UNIT=i5, FMT='(A)', IOSTAT=ios) tmpline
+      IF (ios == 0) READ (tmpline(15:), *, IOSTAT=ios) (xinode(j, nn), nn = 1, n_section_cells(j))
       IF (ios /= 0) CALL input_error ( ios, 7 )
       ! ... Read j coordinates for cells in X-section j
-      READ (UNIT=i5, FMT='(14X,10I5)', IOSTAT=ios)                       &  ! Changed to I5 12/2010 SWA
-      &    (xjnode(j, nn),nn=1,n_section_cells(j))
+      READ (UNIT=i5, FMT='(A)', IOSTAT=ios) tmpline
+      IF (ios == 0) READ (tmpline(15:), *, IOSTAT=ios) (xjnode(j, nn),nn=1,n_section_cells(j))
       IF (ios /= 0) CALL input_error ( ios, 7 )
     END DO
   ENDIF
@@ -126,17 +130,23 @@ SUBROUTINE input
   IF (nopen > 0) THEN
     READ (UNIT=i5, FMT='(14X,G20.2)', IOSTAT=ios) dtsecopenbc
     IF (ios /= 0) CALL input_error ( ios, 8 )
-    READ (UNIT=i5, FMT='(14X,20I)', IOSTAT=ios) (iside(nn), nn = 1, nopen)
+    READ (UNIT=i5, FMT='(A)', IOSTAT=ios) tmpline
+    IF (ios == 0) READ (tmpline(15:), *, IOSTAT=ios) (iside(nn), nn = 1, nopen)
     IF (ios /= 0) CALL input_error ( ios, 8 )
-    READ (UNIT=i5, FMT='(14X,20I)', IOSTAT=ios) (itype(nn), nn = 1, nopen)
+    READ (UNIT=i5, FMT='(A)', IOSTAT=ios) tmpline
+    IF (ios == 0) READ (tmpline(15:), *, IOSTAT=ios) (itype(nn), nn = 1, nopen)
     IF (ios /= 0) CALL input_error ( ios, 8 )
-    READ (UNIT=i5, FMT='(14X,20I)', IOSTAT=ios) (isbc(nn), nn = 1, nopen)
+    READ (UNIT=i5, FMT='(A)', IOSTAT=ios) tmpline
+    IF (ios == 0) READ (tmpline(15:), *, IOSTAT=ios) (isbc(nn), nn = 1, nopen)
     IF (ios /= 0) CALL input_error ( ios, 8 )
-    READ (UNIT=i5, FMT='(14X,20I)', IOSTAT=ios) (jsbc(nn), nn = 1, nopen)
+    READ (UNIT=i5, FMT='(A)', IOSTAT=ios) tmpline
+    IF (ios == 0) READ (tmpline(15:), *, IOSTAT=ios) (jsbc(nn), nn = 1, nopen)
     IF (ios /= 0) CALL input_error ( ios, 8 )
-    READ (UNIT=i5, FMT='(14X,20I)', IOSTAT=ios) (iebc(nn), nn = 1, nopen)
+    READ (UNIT=i5, FMT='(A)', IOSTAT=ios) tmpline
+    IF (ios == 0) READ (tmpline(15:), *, IOSTAT=ios) (iebc(nn), nn = 1, nopen)
     IF (ios /= 0) CALL input_error ( ios, 8 )
-    READ (UNIT=i5, FMT='(14X,20I)', IOSTAT=ios) (jebc(nn), nn = 1, nopen)
+    READ (UNIT=i5, FMT='(A)', IOSTAT=ios) tmpline
+    IF (ios == 0) READ (tmpline(15:), *, IOSTAT=ios) (jebc(nn), nn = 1, nopen)
     IF (ios /= 0) CALL input_error ( ios, 8 )
   ELSE IF (nopen == 0) THEN
     READ (UNIT=i5, FMT='(//////)', IOSTAT=ios)
@@ -152,15 +162,20 @@ SUBROUTINE input
     IF (ios /= 0) CALL input_error ( ios, 8 )
     READ (UNIT=i5, FMT='(14X,G20.2)', IOSTAT=ios) xxNBO
     IF (ios /= 0) CALL input_error ( ios, 8 )
-    READ (UNIT=i5, FMT='(14X,20I)', IOSTAT=ios) (isdNBO(nn), nn=1, nxNBO)
+    READ (UNIT=i5, FMT='(A)', IOSTAT=ios) tmpline
+    IF (ios == 0) READ (tmpline(15:), *, IOSTAT=ios) (isdNBO(nn), nn=1, nxNBO)
     IF (ios /= 0) CALL input_error ( ios, 8 )
-    READ (UNIT=i5, FMT='(14X,20I)', IOSTAT=ios) (isbcNBO(nn), nn=1, nxNBO)
+    READ (UNIT=i5, FMT='(A)', IOSTAT=ios) tmpline
+    IF (ios == 0) READ (tmpline(15:), *, IOSTAT=ios) (isbcNBO(nn), nn=1, nxNBO)
     IF (ios /= 0) CALL input_error ( ios, 8 )
-    READ (UNIT=i5, FMT='(14X,20I)', IOSTAT=ios) (jsbcNBO(nn), nn=1, nxNBO)
+    READ (UNIT=i5, FMT='(A)', IOSTAT=ios) tmpline
+    IF (ios == 0) READ (tmpline(15:), *, IOSTAT=ios) (jsbcNBO(nn), nn=1, nxNBO)
     IF (ios /= 0) CALL input_error ( ios, 8 )
-    READ (UNIT=i5, FMT='(14X,20I)', IOSTAT=ios) (iebcNBO(nn), nn=1, nxNBO)
+    READ (UNIT=i5, FMT='(A)', IOSTAT=ios) tmpline
+    IF (ios == 0) READ (tmpline(15:), *, IOSTAT=ios) (iebcNBO(nn), nn=1, nxNBO)
     IF (ios /= 0) CALL input_error ( ios, 8 )
-    READ (UNIT=i5, FMT='(14X,20I)', IOSTAT=ios) (jebcNBO(nn), nn=1, nxNBO)
+    READ (UNIT=i5, FMT='(A)', IOSTAT=ios) tmpline
+    IF (ios == 0) READ (tmpline(15:), *, IOSTAT=ios) (jebcNBO(nn), nn=1, nxNBO)
     IF (ios /= 0) CALL input_error ( ios, 8 )
   ELSE IF (nxNBO == 0) THEN
     READ (UNIT=i5, FMT='(//////)', IOSTAT=ios)
@@ -212,11 +227,14 @@ SUBROUTINE input
 
     ! ... Read in locations & characteristics of diffusers
     !     At this point, they are pressumed constants in time
-    READ (UNIT=i5, FMT='(14X,20I)', IOSTAT=ios) (ipss(nn), nn=1, iopss)
+    READ (UNIT=i5, FMT='(A)', IOSTAT=ios) tmpline
+    IF (ios == 0) READ (tmpline(15:), *, IOSTAT=ios) (ipss(nn), nn=1, iopss)
     IF (ios/= 0) CALL input_error ( ios, 10)
-    READ (UNIT=i5, FMT='(14X,20I)', IOSTAT=ios) (jpss(nn), nn=1, iopss)
+    READ (UNIT=i5, FMT='(A)', IOSTAT=ios) tmpline
+    IF (ios == 0) READ (tmpline(15:), *, IOSTAT=ios) (jpss(nn), nn=1, iopss)
     IF (ios/= 0) CALL input_error ( ios, 10)
-    READ (UNIT=i5, FMT='(14X,20I)', IOSTAT=ios) (iodev(nn), nn=1, iopss)
+    READ (UNIT=i5, FMT='(A)', IOSTAT=ios) tmpline
+    IF (ios == 0) READ (tmpline(15:), *, IOSTAT=ios) (iodev(nn), nn=1, iopss)
     IF (ios/= 0) CALL input_error ( ios, 10)
 
     IF (iodev(npssdev) /= npssdev) THEN  ! iodev es el identificador del dispositivo. Nodev es el numero de dispositivos. Entonces, el ultimo valor de iodev debe ser igual al Nodev. 
@@ -236,10 +254,10 @@ SUBROUTINE input
     ! ... Allocate space for some arrays - they are initialized
     !     only if ecomod < 0, but used allways in determining
     !     if the tracer transport equation is used or not in subroutine fd.
-    !ALLOCATE ( trct0(ntr), trcpk(ntr), trctn(ntr), &
-    !          trcx0(ntr), trcy0(ntr), trcz0(ntr), &
-    !           trcsx(ntr), trcsy(ntr), trcsz(ntr), STAT=istat)
-    !IF (istat /= 0) CALL allocate_error ( istat, 121 )
+    ALLOCATE ( trct0(ntr), trcpk(ntr), trctn(ntr), &
+              trcx0(ntr), trcy0(ntr), trcz0(ntr), &
+               trcsx(ntr), trcsy(ntr), trcsz(ntr), STAT=istat)
+    IF (istat /= 0) CALL allocate_error ( istat, 121 )
 
     ! .... Initialize trct0 and trctn to default values
     trct0 = 1E7;
@@ -4126,7 +4144,7 @@ SUBROUTINE PointSourceSinkSolve(n,istep,thrs)
          ENDDO
        ELSE                                  ! Update diffuser FLOWS
          IF &
-         ( (DiffON == .FALSE.)       .OR.  & ! Diffuser is TURNED ON
+         ( (DiffON .eqv. .FALSE.)       .OR.  & ! Diffuser is TURNED ON
          (  istep  ==  1            .AND.  & ! Update on first iterations
          (MOD(n,MAX(pdt(nn),1))==0))) THEN   ! Update every pdt time steps
 

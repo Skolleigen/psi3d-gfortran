@@ -429,7 +429,7 @@ SUBROUTINE WQinput
   READ (UNIT=i99,FMT='(///(18X,I20))',IOSTAT=ios) iDO,  &
       iPON, iDON, iNH4, iNO3, iPOP, iDOP, iPO4, iPOC,   &
       iDOC, iALG1, iALG2, iALG3, iALG4, iALG5, iMeHg, iHgII,    &
-      iHg0, iSS 
+      iHg0, iSS
   IF (ios /= 0) CALL input_error ( ios, 92)
 
   !. . . Read model stochiometeric constants and other constants
@@ -450,7 +450,6 @@ SUBROUTINE WQinput
   READ (UNIT=i99,FMT='(///(18X,G20.2))',IOSTAT=ios) Topt1, Topt2, Topt3, Topt4, Topt5, &
   &     Theta_SOD, Theta_mor, Theta_gr, &
   &     Theta_decom, Theta_miner, Theta_sedflux, Theta_nitrif , Theta_denit
-
   IF (ios /= 0) CALL input_error ( ios, 95)
 
   !. . . Read miscillaneous fluxes in mg/m2/d
@@ -478,21 +477,22 @@ SUBROUTINE WQinput
     IF (ios /= 0) CALL input_error ( ios, 98)
     READ (UNIT=i99,FMT='(18X,G20.2)',IOSTAT=ios) sed_h
     IF (ios /= 0) CALL input_error ( ios, 99)
-    READ (UNIT=i99, FMT='(18X,5F)', IOSTAT=ios) (sed_diameter(nn), nn = 1, sedNumber)
+    READ (UNIT=i99, FMT='(18X,5F20.6)', IOSTAT=ios) (sed_diameter(nn), nn = 1, sedNumber)
     IF (ios /= 0) CALL input_error ( ios, 100)
-    READ (UNIT=i99, FMT='(18X,5F)', IOSTAT=ios) (sed_dens(nn), nn = 1, sedNumber)
+    READ (UNIT=i99, FMT='(18X,5F20.6)', IOSTAT=ios) (sed_dens(nn), nn = 1, sedNumber)
     IF (ios /= 0) CALL input_error ( ios, 101)
-    READ (UNIT=i99, FMT='(18X,5F)', IOSTAT=ios) (sed_frac(nn), nn = 1, sedNumber)
+    READ (UNIT=i99, FMT='(18X,5F20.6)', IOSTAT=ios) (sed_frac(nn), nn = 1, sedNumber)
     IF (ios /= 0) CALL input_error ( ios, 102)
-    READ (UNIT=i99,FMT='(18X,5I)', IOSTAT=ios) (sed_type(nn), nn = 1, sedNumber)
+    READ (UNIT=i99,FMT='(18X,5I20)', IOSTAT=ios) (sed_type(nn), nn = 1, sedNumber)
     IF (ios /= 0) CALL input_error ( ios, 103)
-  ELSE IF (sedNumber == 0) THEN
+  ELSE
+    ! iSS=0 or sedNumber=0: skip sediment data in file
     READ (UNIT=i99, FMT='(18X,I20)', IOSTAT=ios)
     READ (UNIT=i99, FMT='(18X,G20.2)', IOSTAT=ios) sed_h
-    READ (UNIT=i99, FMT='(18X,5F)', IOSTAT=ios)
-    READ (UNIT=i99, FMT='(18X,5F)', IOSTAT=ios)
-    READ (UNIT=i99, FMT='(18X,5F)', IOSTAT=ios)
-    READ (UNIT=i99, FMT='(18X,5I)', IOSTAT=ios)
+    READ (UNIT=i99, FMT='(18X,5F20.6)', IOSTAT=ios)
+    READ (UNIT=i99, FMT='(18X,5F20.6)', IOSTAT=ios)
+    READ (UNIT=i99, FMT='(18X,5F20.6)', IOSTAT=ios)
+    READ (UNIT=i99, FMT='(18X,5I20)', IOSTAT=ios)
     IF (ios /= 0) CALL input_error ( ios, 104)
   END IF
 
@@ -552,14 +552,14 @@ SUBROUTINE WQinput
     ! end if
 
     ! if (iSS == 1) then
-      READ (UNIT=i99, FMT='(18X,5F)', IOSTAT=ios) (kd_wpn3(nn), nn = 1, sedNumber)
+      READ (UNIT=i99, FMT='(18X,5F20.6)', IOSTAT=ios) (kd_wpn3(nn), nn = 1, sedNumber)
       IF (ios /= 0) CALL input_error ( ios, 119)
-      READ (UNIT=i99, FMT='(18X,5F)', IOSTAT=ios) (kd_spn3(nn), nn = 1, sedNumber)
+      READ (UNIT=i99, FMT='(18X,5F20.6)', IOSTAT=ios) (kd_spn3(nn), nn = 1, sedNumber)
       IF (ios /= 0) CALL input_error ( ios, 120)
     ! else
-    !   READ (UNIT=i99, FMT='(18X,5F)', IOSTAT=ios)
+    !   READ (UNIT=i99, FMT='(18X,5F20.6)', IOSTAT=ios)
     !   IF (ios /= 0) CALL input_error ( ios, 119)
-    !   READ (UNIT=i99, FMT='(18X,5F)', IOSTAT=ios)
+    !   READ (UNIT=i99, FMT='(18X,5F20.6)', IOSTAT=ios)
     !   IF (ios /= 0) CALL input_error ( ios, 120)
     ! end if
 
@@ -620,14 +620,14 @@ SUBROUTINE WQinput
     ! end if
 
     ! if (iSS == 1) then
-      READ (UNIT=i99, FMT='(18X,5F)', IOSTAT=ios) (kd_wpn2(nn), nn = 1, sedNumber)
+      READ (UNIT=i99, FMT='(18X,5F20.6)', IOSTAT=ios) (kd_wpn2(nn), nn = 1, sedNumber)
       IF (ios /= 0) CALL input_error ( ios, 134)
-      READ (UNIT=i99, FMT='(18X,5F)', IOSTAT=ios) (kd_spn2(nn), nn = 1, sedNumber)
+      READ (UNIT=i99, FMT='(18X,5F20.6)', IOSTAT=ios) (kd_spn2(nn), nn = 1, sedNumber)
       IF (ios /= 0) CALL input_error ( ios, 134)
     ! else
-    !   READ (UNIT=i99, FMT='(18X,5F)', IOSTAT=ios)
+    !   READ (UNIT=i99, FMT='(18X,5F20.6)', IOSTAT=ios)
     !   IF (ios /= 0) CALL input_error ( ios, 134)
-    !   READ (UNIT=i99, FMT='(18X,5F)', IOSTAT=ios)
+    !   READ (UNIT=i99, FMT='(18X,5F20.6)', IOSTAT=ios)
     !   IF (ios /= 0) CALL input_error ( ios, 134)
     ! end if
   else if (iHgII == 0) then
@@ -667,7 +667,7 @@ SUBROUTINE WQinput
    CLOSE (UNIT=i99)
 
   !... Convert model rates [1/s] and [m/s]. Input file has 1/day values. WQ module is run every hour
-  ! ALG 
+  ! ALG
   mu_max1 =  mu_max1/86400.0
   R_mor1 =  R_mor1/86400.0
   R_gr1 =  R_gr1/86400.0
@@ -713,11 +713,13 @@ SUBROUTINE WQinput
   SED_PO4 = SED_PO4/86400.0
   SED_DOC = SED_DOC/86400.0
 
-  ! Tranform units for SS
-  ! To convert sediment density from kg/m3 to mg/m3
-  sed_dens = sed_dens * 1000 * 1000
-  ! To convert sediment diameter from um to m
-  sed_diameter = sed_diameter * 0.000001
+  ! Tranform units for SS (only when SS arrays are allocated)
+  if (iSS == 1 .AND. sedNumber > 0) then
+    ! To convert sediment density from kg/m3 to mg/m3
+    sed_dens = sed_dens * 1000 * 1000
+    ! To convert sediment diameter from um to m
+    sed_diameter = sed_diameter * 0.000001
+  end if
 
 
   ! Transform units for Hg models
@@ -732,14 +734,16 @@ SUBROUTINE WQinput
   ks32 = ks32 / 86400.0
   kws = kws / 86400.0
   
-  ! kd units - m3/mg to m3/ng 
+  ! kd units - m3/mg to m3/ng
   kd_wdoc3 = kd_wdoc3 / (1000 * 1000)
   kd_sdoc3 = kd_sdoc3 / (1000 * 1000)
   kd_wpa3 =  kd_wpa3 / (1000 * 1000)
   kd_wpom3 = kd_wpom3 / (1000 * 1000)
   kd_spom3 = kd_spom3 / (1000 * 1000)
-  kd_wpn3 = kd_wpn3 / (1000 * 1000)
-  kd_spn3 = kd_spn3 / (1000 * 1000)
+  if (iMeHg == 1) then
+    kd_wpn3 = kd_wpn3 / (1000 * 1000)
+    kd_spn3 = kd_spn3 / (1000 * 1000)
+  end if
 
   ! ------------ HgII ----------
   ! time units - days -> seconds
@@ -749,13 +753,15 @@ SUBROUTINE WQinput
   ks23 = ks23 / 86400.0
 
   ! kd units m3/mg to m3/ng
-  kd_wdoc2 = kd_wdoc2 / (1000 * 1000) 
+  kd_wdoc2 = kd_wdoc2 / (1000 * 1000)
   kd_sdoc2 = kd_sdoc2 / (1000 * 1000)
   kd_wpa2 = kd_wpa2 / (1000 * 1000)
   kd_wpom2 = kd_wpom2 / (1000 * 1000)
   kd_spom2 = kd_spom2 / (1000 * 1000)
-  kd_wpn2 = kd_wpn2 / (1000 * 1000)
-  kd_spn2 = kd_spn2 / (1000 * 1000)
+  if (iHgII == 1) then
+    kd_wpn2 = kd_wpn2 / (1000 * 1000)
+    kd_spn2 = kd_spn2 / (1000 * 1000)
+  end if
 
   ! ------------- Hg0 ------------
   ! time units - days to seconds

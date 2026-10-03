@@ -265,14 +265,14 @@ SUBROUTINE UpdateMixingCoefficients(Bstart,Bend,istep,uairB,vairB,cdwB, &
          xl(k)    = q2lp (k,ll) / q2p (k,ll)
 
          ! ... Length scale limitation from Galperin et al (1988)
-         IF(N2(k)>0.0) xl(k)=MIN(xl(k),0.53*DSQRT(q2p(k,ll)/N2(k)))
+         IF(N2(k)>0.0) xl(k)=MIN(xl(k),0.53*SQRT(q2p(k,ll)/N2(k)))
 
          ! ... Evaluate transfer coefficients at time n
          Gh = - N2(k) * xl(k)**2 / q2p(k,ll)
          Gh = MAX( Gh_min_Kc,MIN(Gh_max_Kc, Gh) )
          Sh = t_1/(1.- Gh * t_2)
          Sm = (t_3 + Sh * Gh * t_4 )/(1.-t_5*Gh)
-         Rt = DSQRT (q2p(k,ll)) * xl(k)
+         Rt = SQRT (q2p(k,ll)) * xl(k)
          Av(k,ll) =  Rt * Sm +  AvMolecular
          Dv(k,ll) =  Rt * Sh +  DvMolecular
 
@@ -400,7 +400,7 @@ SUBROUTINE SolveTKEandLengthScale(Bstart,Bend,istep,uairB,vairB,cdwB, &
          &                vp(k  ,m)-vp(k  ,lSC(m)) ) / deltaz(k)
 
          ! ... Length scale limitation from Galperin et al (1988)
-         IF (N2(k)>0.0E0) xl(k)=MIN(xl(k),0.53*DSQRT(q2p(k,m)/N2(k)))
+         IF (N2(k)>0.0E0) xl(k)=MIN(xl(k),0.53*SQRT(q2p(k,m)/N2(k)))
 
          ! ... Calculate production of TKE @ interfaces
          ShearP(k)=  Av(k,m)*( dudz(k) **2. + dvdz(k)**2. )
@@ -410,7 +410,7 @@ SUBROUTINE SolveTKEandLengthScale(Bstart,Bend,istep,uairB,vairB,cdwB, &
 
        ! ... Form diffusion coefficients for q2 & q2l & time n
        dcoeff (k1s:kms) = Sq * 0.50* (xl(k1s:kms  )+ xl(k1s+1:kms+1  )) *  &
-       &               DSQRT ( 0.50*(q2p(k1s:kms,m)+q2p(k1s+1:kms+1,m)) )
+       &               SQRT ( 0.50*(q2p(k1s:kms,m)+q2p(k1s+1:kms+1,m)) )
 
        ! ... Form tridiagonal matrix [aa] ...............................
 
@@ -429,7 +429,7 @@ SUBROUTINE SolveTKEandLengthScale(Bstart,Bend,istep,uairB,vairB,cdwB, &
        ! c. Define center diagonal terms
        aaTh(2,k1s     )  = 3./twodt1
        aaTh(2,k1s+1:kms) = 3./twodt1 - aaTh(1,k1s+1:kms) - aaTh(3,k1s+1:kms)  &
-       &          + 2. * ( DSQRT(q2p(k1s+1:kms,m))/ (B_1*xl(k1s+1:kms)) )
+       &          + 2. * ( SQRT(q2p(k1s+1:kms,m))/ (B_1*xl(k1s+1:kms)) )
        aaTh(2,kms+1   )  = 3./twodt1
 
        !.....Form r.h.s. matrix [ds_t]................................
@@ -467,7 +467,7 @@ SUBROUTINE SolveTKEandLengthScale(Bstart,Bend,istep,uairB,vairB,cdwB, &
        IF (iobal > 0 .AND. istep > 1) THEN
          DO k = k1s+1, kms
            rhoxh = (rhop(k,m)+1000.)*hp(k,m)
-           Dissipijk  = q2(k,m) * DSQRT(q2p(k,m))/ (B_1*xl(k))
+           Dissipijk  = q2(k,m) * SQRT(q2p(k,m))/ (B_1*xl(k))
            ShearProduction    = ShearProduction    + ShearP(k)*rhoxh
            BuoyancyProduction = BuoyancyProduction + BuoyP (k)*rhoxh
            Dissipation        = Dissipation        + Dissipijk*rhoxh
@@ -487,7 +487,7 @@ SUBROUTINE SolveTKEandLengthScale(Bstart,Bend,istep,uairB,vairB,cdwB, &
        ! c. Define center diagonal terms - Wall function as proposed by M&Y
        DO k = k1s+1, kms
          aaTh(2,k) = 3./twodt1 - aaTh(1,k) - aaTh(3,k)                      &
-                  + DSQRT(q2p(k,m))/ (B_1*xl(k))  *                      &
+                  + SQRT(q2p(k,m))/ (B_1*xl(k))  *                      &
          &   ( 1. + E_2 * ( xl(k)/(kappaS*zfromb(k)))** 2. +              &
          &          E_3 * ( xl(k)/(kappaS*zfromt(k)))** 2. )
        ENDDO
